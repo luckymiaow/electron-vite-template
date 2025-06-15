@@ -1,7 +1,7 @@
 
-import { LocalDB } from "../utils/_db";
-import { IpcMainAction } from "../utils/utils";
-import { User } from "../models/User";
+import { LocalDB } from "../db/utils/_db";
+import { IpcMainAction } from "../utils";
+import { User } from "../db/models/User";
 
 @IpcMainAction("UserService")
 export class UserService extends LocalDB<typeof User> {

@@ -1,6 +1,6 @@
 import { app, BrowserWindow } from 'electron'
 import path from 'node:path'
-import "./db/services"
+import "./services"
 // The built directory structure
 //
 // ├─┬─┬ dist
@@ -26,7 +26,7 @@ function createWindow() {
       nodeIntegration: true,
       contextIsolation: false,
     },
-    
+
   })
 
   // Test active push message to Renderer-process.
