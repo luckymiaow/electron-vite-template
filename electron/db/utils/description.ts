@@ -1,7 +1,7 @@
 
 export type DisplayOptions = {
   desc?: string
-  ignore:boolean
+  ignore: boolean
 };
 
 export function Display(desc: string, options?: DisplayOptions) {

@@ -13,9 +13,9 @@ export function api<T extends keyof Services>(path: T,...args:Parameters<Service
 
 `
 
-export  function readServices() {
-  const dir = "db/services"
-  const servicesDir = path.join(__dirname, 'electron/'+ dir);
+export function readServices() {
+  const dir = "services"
+  const servicesDir = path.join(__dirname, 'electron/' + dir);
 
   const files = fs.readdirSync(servicesDir).filter(file => file !== 'index.ts');
 
@@ -29,9 +29,9 @@ export  function readServices() {
     return `PrefixedServices<typeof ${name}.prototype,'${name}'>`
   }).join(' &  \n');
 
-  const str = template.replace('{{services}}',  importServices + '\n\n' + services);
+  const str = template.replace('{{services}}', importServices + '\n\n' + services);
 
-  
+
 
   fs.writeFileSync(path.join(__dirname, 'src/api/index.ts'), str);
 

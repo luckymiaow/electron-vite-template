@@ -10,14 +10,15 @@ import { readServices } from './gen_api';
 import AutoImport from 'unplugin-auto-import/vite';
 import Unocss from 'unocss/vite'
 import VueRouter from 'unplugin-vue-router/vite'
+import { debounce } from 'lodash-es';
 
 
 // https://vitejs.dev/config/
 export default defineConfig({
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, './src'),
-      '~': path.resolve(__dirname, './electron')
+      '@': path.resolve(__dirname, 'src'),
+      '~': path.resolve(__dirname, 'electron'),
     }
   },
 
@@ -49,10 +50,17 @@ export default defineConfig({
     {
       name: 'watch-services',
       configureServer(server) {
-        fs.watch(path.join(__dirname, './electron/db'), { recursive: true }, (event, filename) => {
-          if (filename && !filename.includes('index.ts')) {
-            readServices();
-          }
+        const debouncedRead = debounce(() => {
+          readServices();
+        }, 300);
+
+        const watchDirs = ['./electron/db', './electron/services'];
+        watchDirs.forEach(dir => {
+          fs.watch(path.join(__dirname, dir), { recursive: true }, (event, filename) => {
+            if (filename && !filename.includes('index.ts')) {
+              debouncedRead();
+            }
+          });
         });
       }
     },
@@ -69,7 +77,7 @@ export default defineConfig({
     }),
 
     electron({
-      
+
       main: {
         // Shortcut of `build.lib.entry`.
         entry: 'electron/main.ts',
@@ -85,7 +93,7 @@ export default defineConfig({
       renderer: {},
     }),
 
-    
+
   ],
 
 })

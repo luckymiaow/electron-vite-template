@@ -38,9 +38,9 @@
     "src/**/*.tsx",
     "src/**/*.vue",
     "electron",
-    "db/models/_db.ts",
-    "db/services/book.ts",
-    "db/services/index.ts"
+    "db/**/*/*.ts",
+    "services/book.ts",
+    "services/*.ts"
   ],
   "references": [
     {
