@@ -1,15 +1,15 @@
 <script setup lang="ts">
-// import { api } from "@/api";
-// import { Book } from "~/db/entities/Book";
+import { api } from "@/api";
+import { Book } from "~/db/entities/Book";
 
-// const data = ref<Book[]>([]);
+const data = ref<Book[]>([]);
 
 async function handleClick() {
-  // await api("BookService.create", { name: "vite" });
+  await api("BookService.create", { name: "vite" });
 }
 
 async function query() {
-  // data.value = await api("BookService.findAll");
+  data.value = await api("BookService.findAll");
 }
 
 function test() {
@@ -26,7 +26,7 @@ function getAmazonCategories() {
   <a-button @click="query">查询</a-button>
   <a-button @click="test">test</a-button>
   <a-button @click="getAmazonCategories">getAmazonCategories</a-button>
-  <!-- <a-table :dataSource="data" :columns="TableColumns(Book)"></a-table> -->
+  <a-table :dataSource="data" :columns="TableColumns(Book)"></a-table>
   <HelloWorld msg="Vite + Vue" />
 </template>
 

@@ -9,14 +9,17 @@
     "preview": "vite preview",
     "migration:run": "ts-node-esm electron/db/migration.ts run",
     "migration:revert": "ts-node-esm electron/db/migration.ts revert",
-    "migration:generate": "ts-node-esm electron/db/generate-migration.ts"
+    "migration:generate": "ts-node-esm electron/db/generate-migration.ts",
+    "rebuild": "electron-rebuild -f -w better-sqlite3",
+    "postinstall": "electron-rebuild"
   },
   "dependencies": {
     "@vueuse/core": "^10.9.0",
+    "ant-design-vue": "^4.2.6",
+    "better-sqlite3": "^11.10.0",
     "electron-store": "^8.2.0",
     "naive-ui": "^2.38.1",
     "pinia": "^2.1.7",
-    "sqlite3": "^5.0.0",
     "typeorm": "^0.3.24",
     "unocss": "^66.1.0",
     "unplugin-vue-components": "^0.26.0",
@@ -28,13 +31,15 @@
     "@vitejs/plugin-vue": "^5.0.4",
     "electron": "^30.0.0",
     "electron-builder": "^24.13.3",
+    "electron-rebuild": "^3.2.9",
+    "lodash-es": "^4.17.21",
     "ts-node": "^10.9.2",
     "typescript": "^5.2.2",
     "unplugin-auto-import": "^0.17.5",
+    "unplugin-vue-router": "^0.12.0",
     "vite": "^5.2.6",
-    "vite-plugin-electron": "^0.28.2",
-    "vite-plugin-electron-renderer": "^0.14.5",
-    "lodash-es": "^4.17.21",
+    "vite-plugin-electron": "^0.29.0",
+    "vite-plugin-electron-renderer": "^0.14.6",
     "vue-tsc": "^2.0.6"
   }
 }

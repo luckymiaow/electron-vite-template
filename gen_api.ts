@@ -1,5 +1,10 @@
-import fs from 'fs';
 import path from 'path';
+import fs from 'fs';
+import { fileURLToPath } from 'url';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+import { ipcRenderer } from "electron";
+import { PrefixedServices } from "./utils/type";
 
 const template = `
 import { ipcRenderer } from "electron";

@@ -21,8 +21,8 @@ export function createMainWindow(): BrowserWindow | null {
     autoHideMenuBar: true,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
-      nodeIntegration: false,
-      contextIsolation: true,
+      nodeIntegration: true,
+      contextIsolation: false,
     },
   })
 
@@ -65,8 +65,8 @@ export class WindowsService {
       y: 50,
       webPreferences: {
         preload: path.join(__dirname, 'preload.js'),
-        nodeIntegration: false,
-        contextIsolation: true,
+        nodeIntegration: true,
+        contextIsolation: false,
       }
     })
 

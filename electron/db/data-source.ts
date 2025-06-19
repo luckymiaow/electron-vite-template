@@ -9,7 +9,7 @@ const dbPath = join(app.getPath("userData"), "data_local.db");
 console.log('[ dbPath ]', dbPath)
 
 export const AppDataSource = new DataSource({
-  type: "sqlite",
+  type: "better-sqlite3",
   database: dbPath,
   synchronize: false,
   logging: true,
