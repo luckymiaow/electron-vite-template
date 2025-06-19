@@ -11,7 +11,7 @@ console.log('[ dbPath ]', dbPath)
 export const AppDataSource = new DataSource({
   type: "better-sqlite3",
   database: dbPath,
-  synchronize: false,
+  synchronize: true,
   logging: true,
   entities: [User, Book],
   migrations: [join(__dirname, "migrations", "*.{ts,js}")],

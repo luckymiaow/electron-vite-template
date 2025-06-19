@@ -4,7 +4,7 @@ import { Display } from "../utils/description"
 @Entity()
 export class Book {
   @PrimaryGeneratedColumn()
-  id: number = 0
+  id: number | undefined
 
   @Column("varchar")
   @Display("书名")
@@ -23,4 +23,5 @@ export class Book {
 
   @UpdateDateColumn()
   updatedAt: Date = new Date()
+
 } 

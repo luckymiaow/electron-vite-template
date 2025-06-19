@@ -4,7 +4,6 @@ import electron from 'vite-plugin-electron/simple'
 import vue from '@vitejs/plugin-vue'
 import ViteComponents from 'unplugin-vue-components/vite';
 import { AntDesignVueResolver } from 'unplugin-vue-components/resolvers';
-import { watch } from 'vue';
 import fs from 'fs';
 import { readServices } from './gen_api';
 import AutoImport from 'unplugin-auto-import/vite';
@@ -27,6 +26,7 @@ export default defineConfig({
     VueRouter({
       routesFolder: 'src/pages',
       dts: 'src/typed-router.d.ts',
+
     }),
     AutoImport({
       imports: [

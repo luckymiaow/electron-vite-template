@@ -1,7 +1,8 @@
 // electron/main/windows.ts
 import { BrowserWindow } from 'electron'
 import path from 'path'
-import { IpcMainAction } from '../utils'
+import { IpcHandle, IpcMainAction, IpcOn } from '../utils'
+import { RouteLocationRaw } from 'vue-router'
 
 export const WINDOWS = new Map<string, BrowserWindow>()
 
@@ -43,17 +44,21 @@ export function createMainWindow(): BrowserWindow | null {
   return win
 }
 
-
 @IpcMainAction("WindowsService")
 export class WindowsService {
 
-  createWindow(route: { name: string, path: string }, parent?: string) {
+  @IpcHandle
+  findAll() {
+    return WINDOWS.keys();
+  }
+
+  @IpcHandle
+  createWindow(route: { name: string, path: RouteLocationRaw }, parent?: string) {
     const name = route.name;
     if (WINDOWS.has(name)) {
       WINDOWS.get(name)?.focus()
       return WINDOWS.get(name)!
     }
-
     const child = new BrowserWindow({
       icon,
       width: 1080,
@@ -77,7 +82,7 @@ export class WindowsService {
     } else {
       // 生产环境
       child.loadFile(path.join(__dirname, '../dist/index.html'), {
-        hash: route.path
+        hash: route.path as string
       })
     }
     child.on('closed', () => {
@@ -87,6 +92,7 @@ export class WindowsService {
     WINDOWS.set(name as string, child)
   }
 
+  @IpcHandle
   refreshWindow(name: string,) {
     if (WINDOWS.has(name)) {
       const w = WINDOWS.get(name);
