@@ -8,10 +8,9 @@ export const WINDOWS = new Map<string, BrowserWindow>()
 
 const VITE_DEV_SERVER_URL = process.env['VITE_DEV_SERVER_URL']
 
-let icon: string | undefined = undefined;
+let icon: string | undefined = process.env.VITE_PUBLIC;
 
 export function createMainWindow(): BrowserWindow | null {
-  icon = process.env.VITE_PUBLIC ? path.join(process.env.VITE_PUBLIC, 'icon.ico') : undefined;
   let win: BrowserWindow | null
 
   win = new BrowserWindow({
@@ -74,10 +73,9 @@ export class WindowsService {
       }
     })
 
-    const url = process.env.VITE_DEV_SERVER_URL || ''
-    if (url) {
+    if (VITE_DEV_SERVER_URL) {
       child.webContents.openDevTools()
-      child.loadURL(`${url}#${route.path}`)
+      child.loadURL(`${VITE_DEV_SERVER_URL}#${route.path}`)
     } else {
       // 生产环境
       child.loadFile(path.join(__dirname, '../dist/index.html'), {

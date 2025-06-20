@@ -1,11 +1,11 @@
 import "reflect-metadata"
 import { DataSource } from "typeorm"
 import { app } from 'electron'
-import { join } from "node:path"
+import path from "node:path"
 import { User } from "./entities/User"
 import { Book } from "./entities/Book"
 
-const dbPath = join(app.getPath("userData"), "data_local.db");
+const dbPath = path.join(app.getPath("userData"), "data_local.db");
 console.log('[ dbPath ]', dbPath)
 
 const isDev = !app.isPackaged;
