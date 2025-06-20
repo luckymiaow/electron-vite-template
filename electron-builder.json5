@@ -9,7 +9,12 @@
   directories: {
     output: "release/${version}",
   },
-  files: ["dist", "dist-electron"],
+  files: [
+    "dist",
+    "dist-electron",
+    "node_modules/better-sqlite3/**/*",
+    "node_modules/typeorm/**/*",
+  ],
   mac: {
     target: ["dmg"],
     artifactName: "${productName}-Mac-${version}-Installer.${ext}",
@@ -33,5 +38,9 @@
     target: ["AppImage"],
     artifactName: "${productName}-Linux-${version}.${ext}",
   },
-  asarUnpack: ["node_modules/better-sqlite3/**/*", "node_modules/typeorm/**/*"],
+  asarUnpack: [
+    "node_modules/better-sqlite3/**/*",
+    "node_modules/typeorm/**/*",
+    "**/node_modules/app-root-path/**",
+  ],
 }

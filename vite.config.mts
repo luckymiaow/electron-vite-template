@@ -10,7 +10,6 @@ import AutoImport from 'unplugin-auto-import/vite';
 import Unocss from 'unocss/vite'
 import VueRouter from 'unplugin-vue-router/vite'
 import { debounce } from 'lodash-es';
-import { exec } from 'child_process';
 
 
 // https://vitejs.dev/config/
@@ -84,6 +83,7 @@ export default defineConfig({
           build: {
             rollupOptions: {
               external: [
+                'app-root-path',
                 'mongodb',
                 '@sap/hana-client',
                 '@sap/hana-client/extension/Stream',
