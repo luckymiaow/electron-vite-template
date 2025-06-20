@@ -5,7 +5,7 @@
   "main": "dist-electron/main.js",
   "scripts": {
     "dev": "vite",
-    "build": "vue-tsc && vite build && tsc electron/db/migrations/*.ts --outDir dist-electron/migrations && electron-builder",
+    "build": "vue-tsc && vite build && electron-builder",
     "preview": "vite preview",
     "migration:run": "ts-node-esm electron/db/migration.ts run",
     "migration:revert": "ts-node-esm electron/db/migration.ts revert",
