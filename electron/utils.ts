@@ -8,18 +8,68 @@ interface IpcMethodMeta {
   method: string;
 }
 
-function addIpcMeta(target: any, method: string, type: IpcMethodType) {
+// 定义异步方法的类型
+type AsyncMethod = (...args: any[]) => Promise<any>;
+
+// 定义装饰器目标类型
+interface DecoratorTarget {
+  [IPC_METHODS_KEY]?: IpcMethodMeta[];
+  [key: string]: any;
+}
+
+// 检查方法是否为异步函数的类型
+type IsAsyncMethod<T> = T extends (...args: any[]) => Promise<any> ? true : false;
+
+// 条件类型：如果方法不是异步的，则返回 never
+type AsyncMethodOnly<T> = IsAsyncMethod<T> extends true ? T : never;
+
+// 装饰器类型：只接受异步方法
+type IpcHandleDecorator = <T extends DecoratorTarget, K extends keyof T>(
+  target: T & { [P in K]: AsyncMethodOnly<T[K]> },
+  propertyKey: K
+) => void;
+
+function addIpcMeta(target: DecoratorTarget, method: string, type: IpcMethodType) {
   if (!target[IPC_METHODS_KEY]) target[IPC_METHODS_KEY] = [];
   target[IPC_METHODS_KEY].push({ type, method });
 }
 
-export function IpcHandle(target: any, propertyKey: string) {
+/**
+ * 被装饰的方法必须是异步的
+ * 类型约束确保只有异步方法才能被装饰
+ * @param target 装饰器目标对象
+ * @param propertyKey 属性键名
+ */
+export const IpcHandle: IpcHandleDecorator = function (target: DecoratorTarget, propertyKey: string) {
+  const method = target[propertyKey];
+
+  // 检查方法是否存在
+  if (!method) {
+    throw new Error(`方法 ${propertyKey} 不存在`);
+  }
+
+  // 检查方法是否为异步函数
+  if (typeof method !== 'function') {
+    throw new Error(`属性 ${propertyKey} 不是一个函数`);
+  }
+
+  // 检查是否为异步函数（返回 Promise）
+  const originalMethod = method as AsyncMethod;
+  const isAsync = originalMethod.constructor.name === 'AsyncFunction' ||
+    originalMethod.toString().includes('async');
+
+  if (!isAsync) {
+    throw new Error(`方法 ${propertyKey} 必须是异步函数 (async function)`);
+  }
+
   addIpcMeta(target, propertyKey, 'handle');
-}
-export function IpcOn(target: any, propertyKey: string) {
+} as IpcHandleDecorator;
+
+export function IpcOn(target: DecoratorTarget, propertyKey: string) {
   addIpcMeta(target, propertyKey, 'on');
 }
-export function IpcOnce(target: any, propertyKey: string) {
+
+export function IpcOnce(target: DecoratorTarget, propertyKey: string) {
   addIpcMeta(target, propertyKey, 'once');
 }
 

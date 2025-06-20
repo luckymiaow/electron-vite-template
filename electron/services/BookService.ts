@@ -6,6 +6,11 @@ import { IpcMainAction, IpcHandle } from "../utils"
 export class BookService {
   private bookRepository = AppDataSource.getRepository(Book)
 
+  /**
+   * 创建图书
+   * @param book 
+   * @returns 
+   */
   @IpcHandle
   async create(book: Partial<Book>): Promise<Book> {
     const newBook = this.bookRepository.create(book)

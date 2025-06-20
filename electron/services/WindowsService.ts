@@ -1,24 +1,23 @@
 // electron/main/windows.ts
 import { BrowserWindow } from 'electron'
-import path from 'path'
-import { IpcHandle, IpcMainAction, IpcOn } from '../utils'
+import path from 'node:path'
+import { IpcHandle, IpcMainAction } from '../utils'
 import { RouteLocationRaw } from 'vue-router'
 
 export const WINDOWS = new Map<string, BrowserWindow>()
 
 const VITE_DEV_SERVER_URL = process.env['VITE_DEV_SERVER_URL']
 
-let icon: string
+let icon: string | undefined = undefined;
 
 export function createMainWindow(): BrowserWindow | null {
-  icon = path.join(process.env.VITE_PUBLIC, 'icon.ico');
-
+  icon = process.env.VITE_PUBLIC ? path.join(process.env.VITE_PUBLIC, 'icon.ico') : undefined;
   let win: BrowserWindow | null
 
   win = new BrowserWindow({
     icon,
-    width: 1920,
-    height: 1080,
+    width: 1440,
+    height: 730,
     autoHideMenuBar: true,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
@@ -48,12 +47,12 @@ export function createMainWindow(): BrowserWindow | null {
 export class WindowsService {
 
   @IpcHandle
-  findAll() {
+  async findAll() {
     return WINDOWS.keys();
   }
 
   @IpcHandle
-  createWindow(route: { name: string, path: RouteLocationRaw }, parent?: string) {
+  async createWindow(route: { name: string, path: RouteLocationRaw }, parent?: string) {
     const name = route.name;
     if (WINDOWS.has(name)) {
       WINDOWS.get(name)?.focus()
@@ -93,7 +92,7 @@ export class WindowsService {
   }
 
   @IpcHandle
-  refreshWindow(name: string,) {
+  async refreshWindow(name: string,) {
     if (WINDOWS.has(name)) {
       const w = WINDOWS.get(name);
       if (!w) return;
