@@ -56,15 +56,9 @@ export class BookService {
 
 ## API 自动生成与使用
 
-### 1. 自动生成 API
+### 1. API 自动生成
 
-- 运行 `gen_api.ts` 脚本，会自动扫描 `electron/services/` 目录下所有带装饰器的方法，生成类型安全的前端 API 封装，输出到 `src/api/index.ts`。
-
-```bash
-npm run gen:api
-```
-
-- 生成后的 API 代码会自动根据服务和方法名，封装为 `api.服务名.方法名()` 的调用方式，类型与后端服务强关联。
+- 开发环境下，Vite 插件会自动扫描 `electron/services/` 目录下所有带装饰器的方法，自动生成类型安全的前端 API 封装，输出到 `src/api/index.ts`，无需手动执行命令。
 
 ### 2. 前端调用方式
 
@@ -104,15 +98,7 @@ npm run dev
 npm run build
 ```
 
-- 构建生产环境包，输出到 `dist` 目录。
-
-### 4. 生成主线程通信 API
-
-```bash
-npm run gen:api
-```
-
-- 每次修改 `electron/services/` 下的服务后，建议重新生成 API。
+- 构建生产环境包，输出到 `dist` 和 `dist-electron` 目录。
 
 ---
 
