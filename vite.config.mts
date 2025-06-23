@@ -83,6 +83,7 @@ export default defineConfig({
           build: {
             rollupOptions: {
               external: [
+                'app-root-path',
                 'mongodb',
                 '@sap/hana-client',
                 '@sap/hana-client/extension/Stream',
